@@ -1,0 +1,5 @@
+numpy
+tensorflow
+matplotlib=2.2.2
+scikit-image
+pandas
