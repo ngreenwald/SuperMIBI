@@ -1,7 +1,5 @@
 Things to do:
 
-Implement data preprocessing
-
 Decide whether we're going to do pixel (resolution) upsampling, dwell time (counts) upsampling, as well potentially
 SED image upsampling
 
@@ -9,7 +7,8 @@ Decide on architecture we want to use for the model
 
 Think about how to do hyperparameter optimization train/dev/test split, etc
 
-Think about what makes the most sense for data augmentation
-    This will likely be model specific. For certain cases may be able to create artifical training data
+Think about what makes the most sense for data augmentation. Currently doing cropping beforehand, followed by
+keras realtime data augmentation for flipping. Could make sense to generate additional, artifical training data,
+with 2x2 averaging eg if we do pixel downsampling.
 
-Think about what baseline model is going to be
+Think about what baseline comparison model is going to be

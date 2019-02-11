@@ -1,11 +1,9 @@
 # File for importing and organizing the training data
 import numpy as np
 import math
-
 import os
-import sys
 import matplotlib.pyplot as plt
-import tensorflow as tf
+import skimage
 
 def crop_helper(img, crop_size):
     """"Helper function to take an image, and return crops of size crop_size
@@ -81,26 +79,26 @@ def crop_image(img, crop_size, stride_fraction):
     return cropped_images
 
 # for checking that the above are working
-xx, yy = skimage.draw.ellipse_perimeter(25, 25, 20, 20)
-xx1, yy1 = skimage.draw.ellipse_perimeter(25, 25, 15, 15)
-xx2, yy2 = skimage.draw.rectangle((20, 20), extent=(10,10))
-
-x = np.zeros((50, 50, 1))
-x[xx, yy, 0] = 1
-x[xx1, yy1, 0] = 1
-x[xx2, yy2, 0] = 1
-
-x = x[:, 6:, :]
-plt.imshow(x[:, :, 0])
-
-y = crop_helper(x, 16)
-
-y = crop_image(x, 16, 0.3333)
-
-plt.imshow(y[0, :, :, 0])
-x1 = 10
-
-np.zeros((x1 * x1, x.shape[0]))
+# xx, yy = skimage.draw.ellipse_perimeter(25, 25, 20, 20)
+# xx1, yy1 = skimage.draw.ellipse_perimeter(25, 25, 15, 15)
+# xx2, yy2 = skimage.draw.rectangle((20, 20), extent=(10,10))
+#
+# x = np.zeros((50, 50, 1))
+# x[xx, yy, 0] = 1
+# x[xx1, yy1, 0] = 1
+# x[xx2, yy2, 0] = 1
+#
+# x = x[:, 6:, :]
+# plt.imshow(x[:, :, 0])
+#
+# y = crop_helper(x, 16)
+#
+# y = crop_image(x, 16, 0.3333)
+#
+# plt.imshow(y[0, :, :, 0])
+# x1 = 10
+#
+# np.zeros((x1 * x1, x.shape[0]))
 
 
 def load_tifs(dir, channels, dim=1024):
@@ -198,22 +196,22 @@ def crop_dataset(dataset, crop_size, stride_fraction):
     return cropped_dataset
 
 
-dirs = ['/Users/noahgreenwald/Documents/Grad_School/Lab/Segmentation/Contours/First_Run/Point18/TIFsNoNoise/',
-        '/Users/noahgreenwald/Documents/Grad_School/Lab/Segmentation/Contours/First_Run/Point12/TIFsNoNoise/']
-
-channels = ['dsDNA.tif', 'Na.tif', 'H3K9Ac.tif']
-
-
-x, y = load_dataset(dirs, dirs, channels)
-x_cropped = crop_dataset(x, 128, 0.5)
-
-
-x = skimage.io.imread('/Users/noahgreenwald/Documents/Grad_School/Lab/Segmentation/Contours/First_Run/Point1/TIFsNoNoise/dsDNA.tif')
-
-temp = np.zeros((2, 50, 50, 1))
-temp[0, :, :, :] = x
-temp[1, :, :, :] = x * 2
-
-
-y1 = crop_dataset(temp, 16, 1)
-y = crop_image(temp[0, :, :, :], 16, 1)
+# dirs = ['/Users/noahgreenwald/Documents/Grad_School/Lab/Segmentation/Contours/First_Run/Point18/TIFsNoNoise/',
+#         '/Users/noahgreenwald/Documents/Grad_School/Lab/Segmentation/Contours/First_Run/Point12/TIFsNoNoise/']
+#
+# channels = ['dsDNA.tif', 'Na.tif', 'H3K9Ac.tif']
+#
+#
+# x, y = load_dataset(dirs, dirs, channels)
+# x_cropped = crop_dataset(x, 128, 0.5)
+#
+#
+# x = skimage.io.imread('/Users/noahgreenwald/Documents/Grad_School/Lab/Segmentation/Contours/First_Run/Point1/TIFsNoNoise/dsDNA.tif')
+#
+# temp = np.zeros((2, 50, 50, 1))
+# temp[0, :, :, :] = x
+# temp[1, :, :, :] = x * 2
+#
+#
+# y1 = crop_dataset(temp, 16, 1)
+# y = crop_image(temp[0, :, :, :], 16, 1)

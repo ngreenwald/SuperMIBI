@@ -59,13 +59,19 @@ def pretty_simple_model(input_image):
     X = Conv2D(filters=32, kernel_size=(7, 7), strides=(1,1), padding='same', name='conv1',
                kernel_initializer=glorot_uniform(seed=0), kernel_regularizer=regularizers.l2(0.01))(X_input)
 
+    X = Activation('relu')(X)
+
     # 1x1 convolution
     X = Conv2D(filters=16, kernel_size=(1, 1), strides=(1, 1), padding='same', name='conv2',
                kernel_initializer=glorot_uniform(seed=0), kernel_regularizer=regularizers.l2(0.01))(X)
 
+    X = Activation('relu')(X)
+
     # collapse to single channel for readout
     X = Conv2D(filters=1, kernel_size=(5, 5), strides=(1, 1), padding='same', name='conv3',
                kernel_initializer=glorot_uniform(seed=0), kernel_regularizer=regularizers.l2(0.01))(X)
+
+    X = Activation('relu')(X)
 
     model = Model(inputs=X_input, outputs=X, name='pretty_simple_model')
     return model
