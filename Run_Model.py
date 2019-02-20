@@ -7,7 +7,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 
 # load the data
-base_dir = '/Users/noahgreenwald/Documents/MIBI_Data/CS230/test_run/'
+base_dir = '/home/ubuntu/data/test_run/'
 x_dirs = ['Point7/', 'Point9/', 'Point11/']
 y_dirs = ['Point8/', 'Point10/', 'Point12/']
 dir_suffix = 'TIFs/'
