@@ -13,6 +13,12 @@ base_dir = '/home/ubuntu/SuperMIBI/data/test_run/'
 
 if os.path.isfile(base_dir + 'x_cropped.h5'):
     print('loading previously saved data')
+    # read in data to avoid reprocessing on subsequent analysis
+    # x_data_reload = h5py.File(base_dir + 'x_cropped.h5', 'r')
+        # y_data_reload = h5py.File(base_dir + 'y_cropped.h5', 'r')
+
+        # x_data_cropped = x_data_reload['x_vals'][:]
+        # y_data_cropped = y_data_reload['y_vals'][:]
 
 else:
     print('no previous data data detected. Loading from directory')
@@ -44,14 +50,6 @@ else:
 
     h5_x_cropped.close()
     h5_y_cropped.close()
-
-
-# read in data to avoid reprocessing on subsequent analysis
-#x_data_reload = h5py.File(base_dir + 'x_cropped.h5', 'r')
-#y_data_reload = h5py.File(base_dir + 'y_cropped.h5', 'r')
-
-#x_data_cropped = x_data_reload['x_vals'][:]
-#y_data_cropped = y_data_reload['y_vals'][:]
 
 
 # create train and test split
