@@ -11,7 +11,6 @@ K.set_image_data_format('channels_last')
 
 def SuperMIBI_1(input_image):
     x_input = Input(input_image)
-    print(input_image)
 
     # first layer
     x = Conv2D(filters=10, kernel_size=(5, 5), strides=(1, 1), padding='same', name='conv1',
