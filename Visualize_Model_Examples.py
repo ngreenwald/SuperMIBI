@@ -31,27 +31,33 @@ for i in range(0, X.shape[0]):
     # Creates a 2x3 subplot ie. one channel per row
 
     ax1 = fig.add_subplot(231)
-    ax1.imshow(X1)
+    im1 = ax1.imshow(X1)
+    plt.colorbar(im1)
     ax1.title.set_text('Input')
 
     ax2 = fig.add_subplot(232)
-    ax2.imshow(Y1)
+    im2 = ax2.imshow(Y1)
+    plt.colorbar(im2)
     ax2.title.set_text('Ground Truth')
 
     ax3 = fig.add_subplot(233)
-    ax3.imshow(Yhat1)
+    im3 = ax3.imshow(Yhat1)
+    plt.colorbar(im3)
     ax3.title.set_text('Output')
 
     ax4 = fig.add_subplot(234)
-    ax4.imshow(X2)
+    im4 = ax4.imshow(X2)
+    plt.colorbar(im4)
     ax4.title.set_text('Input')
 
     ax5 = fig.add_subplot(235)
-    ax5.imshow(Y2)
+    im5 = ax5.imshow(Y2)
+    plt.colorbar(im5)
     ax5.title.set_text('Ground Truth')
 
     ax6 = fig.add_subplot(236)
-    ax6.imshow(Yhat2)
+    im6 = ax6.imshow(Yhat2)
+    plt.colorbar(im6)
     ax6.title.set_text('Output')
 
     # Save the figure as a pdf for each example
