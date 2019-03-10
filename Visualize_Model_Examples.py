@@ -4,20 +4,19 @@ import matplotlib.pyplot as plt
 
 # Directory to tiff examples and loss value
 
-tiff_dir = ''
-loss_dir = ''
-loss = ''
+dir = ''
 
 # Loop through all examples and produce + save subplot
 
-for i in range(1, 6):
+for i in range(0, 6):
 
-    X = plt.imread(tiff_dir+'X'+str(i)+'.tiff')
-    Y = plt.imread(tiff_dir+'Y'+str(i)+'.tiff')
-    Yhat = plt.imread(tiff_dir+'Yhat'+str(i)+'.tiff')
+    X = plt.imread(dir + 'X'+str(i) + '.tiff')
+    Y = plt.imread(dir + 'Y' + str(i) + '.tiff')
+    Yhat = plt.imread(dir + 'Yhat' + str(i) + '.tiff')
+    accuracy = open((dir + 'accuracy' + str(i)), 'r').read()
 
     fig = plt.figure()
-    fig.suptitle(('Example ' + str(i) + ', ' + loss))
+    fig.suptitle(('Example ' + str(i) + ', ' + accuracy))
 
     ax1 = fig.add_subplot(131)
     ax1.imshow(X)
