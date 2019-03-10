@@ -11,13 +11,17 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 #base_dir = '/Documents/MIBI_Data/CS230/test_run/'
 base_dir = '/home/ubuntu/SuperMIBI/data/test_run/'
 
-if os.path.isfile(base_dir + 'x_cropped.h5'):
+if os.path.isfile(base_dir + 'x_cropped_train.h5'):
     print('loading previously saved data')
     # read in data to avoid reprocessing on subsequent analysis
-    x_data_reload = h5py.File(base_dir + 'x_cropped.h5', 'r')
-    y_data_reload = h5py.File(base_dir + 'y_cropped.h5', 'r')
-    x_data_cropped = x_data_reload['x_vals'][:]
-    y_data_cropped = y_data_reload['y_vals'][:]
+    x_data_reload_train = h5py.File(base_dir + 'x_cropped_train.h5', 'r')
+    x_data_reload_test = h5py.File(base_dir + 'x_cropped_test.h5', 'r')
+    y_data_reload_train = h5py.File(base_dir + 'y_cropped_train.h5', 'r')
+    y_data_reload_test = h5py.File(base_dir + 'y_cropped_test.h5', 'r')
+    x_train = x_data_reload_train['x_train'][:]
+    x_test = x_data_reload_test['x_test'][:]
+    y_train = y_data_reload_train['y_train'][:]
+    y_test = y_data_reload_test['y_test'][:]
 
 else:
     print('no previous data data detected. Loading from directory')
@@ -39,28 +43,36 @@ else:
     y_data_cropped = Data_Import.crop_dataset(dataset=y_data, crop_size=128, stride_fraction=0.333)
 
     # save data for quicker loading next time
+    
+    # create train and test split
+    print('Generating train/test split')
+    np.random.seed(seed=1)
+    choo_choo_idx = np.random.binomial(n=1, p=0.01, size=x_data_cropped.shape[0])
+    x_train, x_test = x_data_cropped[choo_choo_idx, :, :, :], x_data_cropped[~choo_choo_idx, :, :, :]
+    y_train, y_test = y_data_cropped[choo_choo_idx, :, :, :], y_data_cropped[~choo_choo_idx, :, :, :]
+    print('x_train shape is {}. y_train_shape is {}.'.format(x_train.shape, y_train.shape)) 
 
     print('saving data for faster loading next time')
-    h5_x_cropped = h5py.File(base_dir + 'x_cropped.h5', 'w')
-    h5_y_cropped = h5py.File(base_dir + 'y_cropped.h5', 'w')
+    h5_x_cropped_train = h5py.File(base_dir + 'x_cropped_train.h5', 'w')
+    h5_x_cropped_test = h5py.File(base_dir + 'x_cropped_test.h5', 'w')
 
-    h5_x_cropped.create_dataset('x_vals', data=x_data_cropped)
-    h5_y_cropped.create_dataset('y_vals', data=y_data_cropped)
+    h5_y_cropped_train = h5py.File(base_dir + 'y_cropped_train.h5', 'w')
+    h5_y_cropped_test = h5py.File(base_dir + 'y_cropped_test.h5', 'w')
+    
+    h5_x_cropped_train.create_dataset('x_train', data=x_train)
+    h5_x_cropped_test.create_dataset('x_test', data=x_test)
+    h5_y_cropped_train.create_dataset('y_train', data=y_train)
+    h5_y_cropped_test.create_dataset('y_test', data=y_test)
 
-    h5_x_cropped.close()
-    h5_y_cropped.close()
+    h5_x_cropped_train.close()
+    h5_x_cropped_test.close()
+    h5_y_cropped_train.close()
+    h5_y_cropped_test.close()
 
     chans = np.array(channels)
     np.save(base_dir + 'chan_names', chans)
 
 
-# create train and test split
-print('Generating train/test split')
-np.random.seed(seed=1)
-choo_choo_idx = np.random.binomial(n=1, p=0.01, size=x_data_cropped.shape[0])
-x_train, x_test = x_data_cropped[choo_choo_idx, :, :, :], x_data_cropped[~choo_choo_idx, :, :, :]
-y_train, y_test = y_data_cropped[choo_choo_idx, :, :, :], y_data_cropped[~choo_choo_idx, :, :, :]
-print('x_train shape is {}. y_train_shape is {}.'.format(x_train.shape, y_train.shape)) 
 
 # include only a subset of channels
 if os.path.isfile(base_dir + 'chan_names.npy'):
@@ -125,3 +137,6 @@ print()
 print("Training accuracy: {}".format(np.round(model_1.history.history['acc'], 2)))
 print("Loss = " + str(preds[0]))
 print("Test Accuracy = " + str(preds[1]))
+
+print('saving model')
+model_1.save('my_first_model')

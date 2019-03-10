@@ -6,9 +6,9 @@ import numpy
 # Directory to examples and accuracy values
 
 dir = ''
-X = numpy.load(dir + 'X.npy')
-Y = numpy.load(dir + 'Y.npy')
-Yhat = numpy.load(dir + 'Yhat.npy')
+X = numpy.load(dir + 'xs.npy')
+Y = numpy.load(dir + 'ys.npy')
+Yhat = numpy.load(dir + 'y_hat.npy')
 
 # Loop through all examples and produce + save subplot
 
@@ -23,7 +23,7 @@ for i in range(0, X.shape[0]):
     Yhat1 = Yhat[i, :, :, 0]
     Yhat2 = Yhat[i, :, :, 1]
 
-    accuracy = open((dir + 'accuracy' + str(i) + '.txt'), 'r').read()
+    accuracy = open((dir + 'metrics' + str(i)), 'r').read()
 
     fig = plt.figure()
     fig.suptitle(('Example ' + str(i) + ', ' + accuracy))
@@ -56,7 +56,7 @@ for i in range(0, X.shape[0]):
 
     # Save the figure as a pdf for each example
 
-    fig.savefig('Example ' + str(i) + '.pdf')
+    fig.savefig('Example' + str(i) + '.pdf')
 
 
 
