@@ -1,34 +1,60 @@
 # Script for visualizing the input, output, ground truth, and associated loss
 
 import matplotlib.pyplot as plt
+import numpy
 
-# Directory to tiff examples and loss value
+# Directory to examples and accuracy values
 
 dir = ''
+X = numpy.load(dir + 'X.npy')
+Y = numpy.load(dir + 'Y.npy')
+Yhat = numpy.load(dir + 'Yhat.npy')
 
 # Loop through all examples and produce + save subplot
 
-for i in range(0, 6):
+for i in range(0, X.shape[0]):
 
-    X = plt.imread(dir + 'X'+str(i) + '.tiff')
-    Y = plt.imread(dir + 'Y' + str(i) + '.tiff')
-    Yhat = plt.imread(dir + 'Yhat' + str(i) + '.tiff')
-    accuracy = open((dir + 'accuracy' + str(i)), 'r').read()
+    X1 = X[i, :, :, 0]
+    X2 = X[i, :, :, 1]
+
+    Y1 = Y[i, :, :, 0]
+    Y2 = Y[i, :, :, 1]
+
+    Yhat1 = Yhat[i, :, :, 0]
+    Yhat2 = Yhat[i, :, :, 1]
+
+    accuracy = open((dir + 'accuracy' + str(i) + '.txt'), 'r').read()
 
     fig = plt.figure()
     fig.suptitle(('Example ' + str(i) + ', ' + accuracy))
 
-    ax1 = fig.add_subplot(131)
-    ax1.imshow(X)
+    # Creates a 2x3 subplot ie. one channel per row
+
+    ax1 = fig.add_subplot(231)
+    ax1.imshow(X1)
     ax1.title.set_text('Input')
 
-    ax2 = fig.add_subplot(132)
-    ax2.imshow(Y)
+    ax2 = fig.add_subplot(232)
+    ax2.imshow(Y1)
     ax2.title.set_text('Ground Truth')
 
-    ax3 = fig.add_subplot(133)
-    ax3.imshow(Yhat)
+    ax3 = fig.add_subplot(233)
+    ax3.imshow(Yhat1)
     ax3.title.set_text('Output')
+
+    ax4 = fig.add_subplot(234)
+    ax4.imshow(X2)
+    ax4.title.set_text('Input')
+
+    ax5 = fig.add_subplot(235)
+    ax5.imshow(Y2)
+    ax5.title.set_text('Ground Truth')
+
+    ax6 = fig.add_subplot(236)
+    ax6.imshow(Yhat2)
+    ax6.title.set_text('Output')
+
+    # Save the figure as a pdf for each example
 
     fig.savefig('Example ' + str(i) + '.pdf')
 
