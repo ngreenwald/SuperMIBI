@@ -8,8 +8,8 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 # load the data
 
-#base_dir = '/Documents/MIBI_Data/CS230/test_run/'
-base_dir = '/home/ubuntu/SuperMIBI/data/test_run/'
+base_dir = '/Users/noahgreenwald/Documents/MIBI_Data/CS230/test_run/'
+#base_dir = '/home/ubuntu/SuperMIBI/data/test_run/'
 
 if os.path.isfile(base_dir + 'x_cropped_train.h5'):
     print('loading previously saved data')
@@ -47,7 +47,11 @@ else:
     # create train and test split
     print('Generating train/test split')
     np.random.seed(seed=1)
-    choo_choo_idx = np.random.binomial(n=1, p=0.01, size=x_data_cropped.shape[0])
+    choo_choo_idx = np.random.binomial(n=1, p=0.95, size=x_data_cropped.shape[0])
+
+    # change to boolean so that indexing works
+    choo_choo_idx = choo_choo_idx == 1
+
     x_train, x_test = x_data_cropped[choo_choo_idx, :, :, :], x_data_cropped[~choo_choo_idx, :, :, :]
     y_train, y_test = y_data_cropped[choo_choo_idx, :, :, :], y_data_cropped[~choo_choo_idx, :, :, :]
     print('x_train shape is {}. y_train_shape is {}.'.format(x_train.shape, y_train.shape)) 
