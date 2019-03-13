@@ -2,10 +2,19 @@
 
 import matplotlib.pyplot as plt
 import numpy
+import sys
+
+# check command line arguments
+
+if len(sys.argv) == 1:
+    raise ValueError("Command line arguments not supplied")
+
+else:
+    model_name = sys.argv[1]
 
 # Directory to examples and accuracy values
 
-dir = ''
+dir = 'output/metrics/' + model_name + '/'
 X = numpy.load(dir + 'xs.npy')
 Y = numpy.load(dir + 'ys.npy')
 Yhat = numpy.load(dir + 'y_hat.npy')
@@ -13,15 +22,25 @@ Yhat = numpy.load(dir + 'y_hat.npy')
 # Loop through all examples and produce + save subplot
 
 for i in range(0, X.shape[0]):
+    if X.shape[3] == 1:  
+        X1 = X[i, :, :, 0]
+        X2 = X[i, :, :, 0]
 
-    X1 = X[i, :, :, 0]
-    X2 = X[i, :, :, 1]
+        Y1 = Y[i, :, :, 0]
+        Y2 = Y[i, :, :, 0]
 
-    Y1 = Y[i, :, :, 0]
-    Y2 = Y[i, :, :, 1]
+        Yhat1 = Yhat[i, :, :, 0]
+        Yhat2 = Yhat[i, :, :, 0]
+    
+    else:
+        X1 = X[i, :, :, 0]
+        X2 = X[i, :, :, 1]
 
-    Yhat1 = Yhat[i, :, :, 0]
-    Yhat2 = Yhat[i, :, :, 1]
+        Y1 = Y[i, :, :, 0]
+        Y2 = Y[i, :, :, 1]
+
+        Yhat1 = Yhat[i, :, :, 0]
+        Yhat2 = Yhat[i, :, :, 1]
 
     accuracy = open((dir + 'metrics' + str(i)), 'r').read()
 
@@ -62,7 +81,5 @@ for i in range(0, X.shape[0]):
 
     # Save the figure as a pdf for each example
 
-    fig.savefig('Example' + str(i) + '.pdf')
-
-
+    fig.savefig(dir + 'Example' + str(i) + '.pdf')
 
