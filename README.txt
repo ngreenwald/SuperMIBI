@@ -23,7 +23,9 @@
 
 # syntax:
 	To copy files to/from AWS: $ scp -i <keypair> file_name_local.txt ubuntu@ec2-bla-bla.com~/folder_name
-
-
+    $scp -i <keypair> file_name ubuntu@blabla.com~folder_name
+    
+    To copy to local computer:
+        scp -i <keypair> ubuntu@blabla.com:folder_name/file local_file_name.txt
 # to create a custom conda env with specified files:
 
