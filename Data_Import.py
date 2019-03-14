@@ -158,7 +158,7 @@ def load_dataset(x_dirs, y_dirs, channels):
             y_data[j, :, :, :] = y_temp
 
         else:
-            y_temp = load_tifs(y_dirs[i], channels)
+            y_temp = load_tifs(y_dirs[j], channels)
             y_data[j, :, :, :] = y_temp
 
     return x_data, y_data
