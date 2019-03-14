@@ -5,6 +5,7 @@ import sys
 base_dir = '/home/ubuntu/SuperMIBI/data/test_run/'
 from tensorflow.keras import models
 import os
+import random
 
 # check for command line args
 
@@ -24,7 +25,7 @@ keep_idx = np.load('output/models/' + model_name + '_channel_idx.npy')
 x_test = x_data_test['x_test'][:]
 y_test = y_data_test['y_test'][:]
 
-test_idx = np.arange(30, 35)
+test_idx = random.sample(range(x_test.shape[0]), 15)
 xs = x_test[test_idx, :, :, :]
 xs = xs[:, :, :, keep_idx]
 ys = y_test[test_idx, :, :, :]

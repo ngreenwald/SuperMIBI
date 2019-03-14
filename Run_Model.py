@@ -61,12 +61,17 @@ else:
     print('Generating train/test split')
     np.random.seed(seed=1)
     choo_choo_idx = np.random.binomial(n=1, p=0.95, size=x_data_cropped.shape[0])
+    # choo_choo_idx = random.sample(range(x_data_cropped.shape[0]), np.floor(x_data_cropped.shape[0] * 0.95))
+    
+    idx_num = np.arange(x_data_cropped.shape[0])
+    np.random.shuffle(idx_num)
 
     # change to boolean so that indexing works
     choo_choo_idx = choo_choo_idx == 1
-
-    x_train, x_test = x_data_cropped[choo_choo_idx, :, :, :], x_data_cropped[~choo_choo_idx, :, :, :]
-    y_train, y_test = y_data_cropped[choo_choo_idx, :, :, :], y_data_cropped[~choo_choo_idx, :, :, :]
+    train_idx = idx_num[choo_choo_idx]
+    test_idx =idx_num[~choo_choo_idx]
+    x_train, x_test = x_data_cropped[train_idx, :, :, :], x_data_cropped[test_idx, :, :, :]
+    y_train, y_test = y_data_cropped[train_idx, :, :, :], y_data_cropped[test_idx, :, :, :]
     print('x_train shape is {}. y_train_shape is {}.'.format(x_train.shape, y_train.shape)) 
 
     print('saving data for faster loading next time')
@@ -110,7 +115,7 @@ print('new x_train shape is {}. new y_train_shape is {}.'.format(x_train.shape, 
 
 # create model
 model_1 = Models.SuperMIBI_1((128, 128, np.sum(keep_idx)))
-model_1.compile(optimizer='adam', loss='mean_squared_error', metrics=['accuracy'])
+model_1.compile(optimizer='adam', loss='mean_squared_error', metrics=['mean_squared_error'])
 
 
 # initializer data augmentation iterator
@@ -152,9 +157,9 @@ model_1.history = model_1.fit_generator(datagen.flow(x_train, y_train, batch_siz
 print('evaluating the model')
 preds = model_1.evaluate(x=x_test, y=y_test)
 print()
-print("Training accuracy: {}".format(np.round(model_1.history.history['acc'], 2)))
+print("Training MSE: {}".format(np.round(model_1.history.history['mean_squared_error'], 2)))
 print("Loss = " + str(preds[0]))
-print("Test Accuracy = " + str(preds[1]))
+print("Test MSE = " + str(preds[1]))
 
 print('saving model')
 model_1.save('output/models/' + model_name)
