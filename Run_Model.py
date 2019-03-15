@@ -48,7 +48,12 @@ else:
     bad_bois = ['Background.tif', 'Fe.tif', 'Ta.tif', 'Au.tif', 'Ca.tif', 'totalIon.tif', 'Na.tif', 'C.tif', 'Si.tif']
     channels = [x for x in channels if x not in bad_bois]
 
+    # get dat data
     x_data, y_data = Data_Import.load_dataset(x_dirs, y_dirs, channels)
+
+    # normalize data on a per channel basis
+    x_data= Data_Import.data_norm(x_data)
+    y_data= Data_Import.data_norm(y_data)
 
     # crop data
     print('cropping the data')
