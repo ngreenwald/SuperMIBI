@@ -18,8 +18,11 @@ def data_norm(data):
 
     mean = np.mean(data, axis=(1,2), keepdims=True)
     std = np.std(data, axis=(1,2), keepdims=True)
-    if std == 0:
-        std = 1
+
+    # check for zero division
+    replace_idx = std == 0
+    std[replace_idx] = 1
+
     data_norm = (data - mean) / std
 
     return data_norm
