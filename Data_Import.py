@@ -18,7 +18,9 @@ def data_norm(data):
 	# Take the mean and std of each channel individually 
 
 	mean = np.mean(data, axis=(1,2), keepdims=True)
-	std = np.std(data, axis=(1,2), keepdims=True)     
+	std = np.std(data, axis=(1,2), keepdims=True)
+    if std == 0:
+        std = 1
 	# Compute the normalized data array 
 
 	data_norm = (data - mean) / std
