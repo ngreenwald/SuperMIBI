@@ -22,7 +22,7 @@ print("using {} as channels".format(input_channels))
 # load the data
 
 #base_dir = '/Users/noahgreenwald/Documents/MIBI_Data/CS230/test_run/'
-base_dir = '/home/ubuntu/SuperMIBI/data/test_run/'
+base_dir = '/home/ubuntu/SuperMIBI/data/'
 
 if os.path.isfile(base_dir + 'x_cropped_train.h5'):
     print('loading previously saved data')
@@ -40,10 +40,9 @@ else:
     print('no previous data data detected. Loading from directory')
     x_dirs = ['Point7/', 'Point9/', 'Point11/']
     y_dirs = ['Point8/', 'Point10/', 'Point12/']
-    dir_suffix = 'TIFs/'
 
-    x_dirs = [base_dir + x + dir_suffix for x in x_dirs]
-    y_dirs = [base_dir + y + dir_suffix for y in y_dirs]
+    x_dirs = [base_dir + 'test_run/' + x + 'TIFs/' for x in x_dirs]
+    y_dirs = [base_dir + 'dwell-data-processed/' + y + 'TIFsNoNoise' for y in y_dirs]
     channels = os.listdir(x_dirs[0])
     bad_bois = ['Background.tif', 'Fe.tif', 'Ta.tif', 'Au.tif', 'Ca.tif', 'totalIon.tif', 'Na.tif', 'C.tif', 'Si.tif']
     channels = [x for x in channels if x not in bad_bois]

@@ -2,7 +2,7 @@ import Models
 import numpy as np
 import h5py
 import sys
-base_dir = '/home/ubuntu/SuperMIBI/data/test_run/'
+base_dir = '/home/ubuntu/SuperMIBI/data/'
 from tensorflow.keras import models
 import os
 import random
