@@ -12,14 +12,13 @@ def data_norm(data):
        	data (np.array): array of shape (num_x_points, rows, cols, num_channels) corresponding to x or y_data
 
         Outputs
-        data_norm (np.array): array of shape (num_x_points, rows, cols, num_channels) corresponding to x or y data 		normalized""""
+        data_norm (np.array): array of shape (num_x_points, rows, cols, num_channels) corresponding to x or y data 		normalized"""
     	
 
 	# Take the mean and std of each channel individually 
 
 	mean = np.mean(data, axis=(1,2), keepdims=True)
-	std = np.std(data, axis=(1,2), keepdims=True)
-
+	std = np.std(data, axis=(1,2), keepdims=True)     
 	# Compute the normalized data array 
 
 	data_norm = (data - mean) / std
