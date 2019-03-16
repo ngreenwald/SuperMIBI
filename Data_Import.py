@@ -5,28 +5,27 @@ import os
 import matplotlib.pyplot as plt
 import skimage
 
-def data_norm(data): 
-	""""Helper function to take x and y datasets and return datasets normalized on a per channel basis
-	
- 	Inputs
-       	data (np.array): array of shape (num_x_points, rows, cols, num_channels) corresponding to x or y_data
+def data_norm(data):
+    """Helper function to take x and y datasets and return datasets normalized on a per channel basis
 
-        Outputs
-        data_norm (np.array): array of shape (num_x_points, rows, cols, num_channels) corresponding to x or y data 		normalized""""
-    	
+    Inputs:
+    data(np.array): array of shape(num_x_points, rows, cols, num_channels) corresponding to x or y data
 
-	# Take the mean and std of each channel individually 
+    Outputs:
+    data_norm(np.array) array of shape(num_x_points, rows_cols_num_channels) corresponding to x or data normlaized"""
 
-	mean = np.mean(data, axis=(1,2), keepdims=True)
-	std = np.std(data, axis=(1,2), keepdims=True)
+    # Take the mean and std of each channel individually
 
-	# Compute the normalized data array 
+    mean = np.mean(data, axis=(1,2), keepdims=True)
+    std = np.std(data, axis=(1,2), keepdims=True)
 
-	data_norm = (data - mean) / std
+    # check for zero division
+    replace_idx = std == 0
+    std[replace_idx] = 1
 
-	return data_norm
-		
-	
+    data_norm = (data - mean) / std
+
+    return data_norm
 
 def crop_helper(img, crop_size):
     """"Helper function to take an image, and return crops of size crop_size
