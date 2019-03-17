@@ -164,7 +164,7 @@ model_1.history = model_1.fit_generator(datagen.flow(x_train, y_train, batch_siz
 
 # Summarize loss over training 
 
-plt.plot(model_1.history['loss'])
+plt.plot(model_1.history.history['loss'])
 plt.title('Model Loss')
 plt.ylabel('loss')
 plt.xlabel('epoch')
