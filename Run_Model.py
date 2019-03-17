@@ -10,19 +10,20 @@ import sys
 
 # check for command line arguments for model name
 
-if len(sys.argv) < 4:
-    raise ValueError("did not include enough  command line arguments. Syntax: python Run_Model.py model_name num_epochs channel_name1.tif...")
+if len(sys.argv) < 5:
+    raise ValueError("did not include enough  command line arguments. Syntax: python Run_Model.py model model_name num_epochs channel_name1.tif...")
 else:
-    model_name = sys.argv[1]
-    num_epochs = int(sys.argv[2])
-    input_channels = sys.argv[3:len(sys.argv)]
+    model_choice = sys.arg[1]
+    model_name = sys.argv[2]
+    num_epochs = int(sys.argv[3])
+    input_channels = sys.argv[4:len(sys.argv)]
 
 print("using {} as model name".format(model_name))
 print("training for {} epochs".format(num_epochs))
 print("using {} as channels".format(input_channels))
 # load the data
 
-#base_dir = '/Users/noahgreenwald/Documents/MIBI_Data/CS230/test_run/'
+#base_dir = '/Users/noahgreenwald/Documents/MIBI_Data/CS230/'
 base_dir = '/home/ubuntu/SuperMIBI/data/'
 
 if os.path.isfile(base_dir + 'x_cropped_train.h5'):
@@ -52,8 +53,8 @@ else:
     x_data, y_data = Data_Import.load_dataset(x_dirs, y_dirs, channels)
 
     # normalize data on a per channel basis
-    x_data= Data_Import.data_norm(x_data)
-    y_data= Data_Import.data_norm(y_data)
+    x_data = Data_Import.data_norm(x_data)
+    y_data = Data_Import.data_norm(y_data)
 
     # crop data
     print('cropping the data')
@@ -108,7 +109,7 @@ if os.path.isfile(base_dir + 'chan_names.npy'):
 else:
     print('using currently generated channel names')
 
-#keepers = ['H3K9Ac.tif']
+#keepers = ['Ki67.tif']
 keepers = input_channels
 keep_idx = np.isin(chans, keepers)
 
@@ -123,7 +124,13 @@ print('new x_train shape is {}. new y_train_shape is {}.'.format(x_train.shape, 
 
 
 # create model
-model_1 = Models.SuperMIBI_1((128, 128, np.sum(keep_idx)))
+if model_choice == '1':
+    model_1 = Models.SuperMIBI_1((128, 128, np.sum(keep_idx)))
+elif model_choice == '2':
+    model_1 = Models.SuperMIBI_2((128, 128, np.sum(keep_idx)))
+else:
+    raise ValueError('incorrect parameter supplied for model_choice')
+
 model_1.compile(optimizer='adam', loss='mean_squared_error', metrics=['mean_squared_error'])
 
 
