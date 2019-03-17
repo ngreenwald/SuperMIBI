@@ -110,6 +110,10 @@ else:
 #keepers = ['H3K9Ac.tif']
 keepers = input_channels
 keep_idx = np.isin(chans, keepers)
+
+if np.sum(keep_idx) == 0:
+    raise ValueError("Did not supply valid channel name")
+
 print('analyzing the following channels: {}'.format(chans[keep_idx]))
 
 x_train, x_test = x_train[:, :, :, keep_idx], x_test[:, :, :, keep_idx]

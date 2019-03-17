@@ -13,16 +13,16 @@ def SuperMIBI_1(input_image):
     x_input = Input(input_image)
 
     # first layer
-    x = Conv2D(filters=128, kernel_size=(5, 5), strides=(1, 1), padding='same', name='conv1',
+    x = Conv2D(filters=128, kernel_size=(9, 9), strides=(1, 1), padding='same', name='conv1',
                kernel_initializer=glorot_uniform(seed=0), kernel_regularizer=regularizers.l2(0.01))(x_input)
     x = BatchNormalization(axis=3, name='bn_1')(x)
     x = Activation('relu', name='relu_1')(x)
 
     # second layer
-    #x = Conv2D(filters=10, kernel_size=(7, 7), strides=(1, 1), padding='same', name='conv2',
-    #           kernel_initializer=glorot_uniform(seed=0), kernel_regularizer=regularizers.l2(0.01))(x)
-    #x = BatchNormalization(axis=3, name='bn_2')(x)
-    #x = Activation('relu', name='relu_2')(x)
+    x = Conv2D(filters=64, kernel_size=(20, 20), strides=(1, 1), padding='same', name='conv2',
+               kernel_initializer=glorot_uniform(seed=0), kernel_regularizer=regularizers.l2(0.01))(x)
+    x = BatchNormalization(axis=3, name='bn_2')(x)
+    x = Activation('relu', name='relu_2')(x)
 
     # third layer: 1x1 convolution
 
@@ -33,7 +33,7 @@ def SuperMIBI_1(input_image):
 
     # fourth layer: predict
 
-    x = Conv2D(filters=input_image[2], kernel_size=(7, 7), strides=(1, 1), padding='same', name='conv4',
+    x = Conv2D(filters=input_image[2], kernel_size=(5, 5), strides=(1, 1), padding='same', name='conv4',
                kernel_initializer=glorot_uniform(seed=0), kernel_regularizer=regularizers.l2(0.01))(x)
     x = BatchNormalization(axis=3, name='bn_4')(x)
     x = Activation('relu', name='relu_4')(x)
