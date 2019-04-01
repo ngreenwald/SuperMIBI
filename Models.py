@@ -13,7 +13,7 @@ def SuperMIBI_1(input_image):
     x_input = Input(input_image)
 
     # first layer
-    x = Conv2D(filters=128, kernel_size=(11, 11), strides=(1, 1), padding='same', name='conv1',
+    x = Conv2D(filters=128, kernel_size=(14, 14), strides=(1, 1), padding='same', name='conv1',
                kernel_initializer=glorot_uniform(seed=0), kernel_regularizer=regularizers.l2(0.01))(x_input)
     x = BatchNormalization(axis=3, name='bn_1')(x)
     x = Activation('relu', name='relu_1')(x)
@@ -76,6 +76,15 @@ def SuperMIBI_2(input_image):
     x = BatchNormalization(axis=3, name='bn_3')(x)
     x = Activation('relu', name='relu_3')(x)
 
+    # max pool
+    #x = MaxPooling2D(pool_size=(2, 2))(x)
+
+    # third layer
+    #x = Conv2D(filters=64, kernel_size=(3, 3), strides=(1, 1), padding='same',
+    #           kernel_initializer=glorot_uniform(seed=0), kernel_regularizer=regularizers.l2(0.01))(x)
+    #x = BatchNormalization(axis=3)(x)
+    #x = Activation('relu')(x)
+    
     # upsample
     x = UpSampling2D(size=(2, 2), name='up_1')(x)
 
@@ -94,9 +103,16 @@ def SuperMIBI_2(input_image):
     x = BatchNormalization(axis=3, name='bn_5')(x)
     x = Activation('relu', name='relu_5')(x)
 
-    # 1x1 output
+    # upsample
+   # x = UpSampling2D(size=(2, 2))(x)
 
-    # 6th layer
+    # 5th layer
+    #x = Conv2D(filters=16, kernel_size=(3, 3), strides=(1, 1), padding='same',
+     #          kernel_initializer=glorot_uniform(seed=0), kernel_regularizer=regularizers.l2(0.01))(x)
+    #x = BatchNormalization(axis=3)(x)
+    #x = Activation('relu')(x)
+
+    # 6th layer, 1x1
     x = Conv2D(filters=input_image[2], kernel_size=(1, 1), strides=(1, 1), padding='same', name='conv6',
                kernel_initializer=glorot_uniform(seed=0), kernel_regularizer=regularizers.l2(0.01))(x)
     x = BatchNormalization(axis=3, name='bn_6')(x)

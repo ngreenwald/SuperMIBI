@@ -13,7 +13,7 @@ import sys
 if len(sys.argv) < 5:
     raise ValueError("did not include enough  command line arguments. Syntax: python Run_Model.py model model_name num_epochs channel_name1.tif...")
 else:
-    model_choice = sys.arg[1]
+    model_choice = sys.argv[1]
     model_name = sys.argv[2]
     num_epochs = int(sys.argv[3])
     input_channels = sys.argv[4:len(sys.argv)]
@@ -175,7 +175,7 @@ plt.plot(model_1.history.history['loss'])
 plt.title('Model Loss')
 plt.ylabel('loss')
 plt.xlabel('epoch')
-plt.savefig('loss_plot.pdf')
+plt.savefig('loss_plot' + model_name + '.pdf')
 
 # evaluate model
 print('evaluating the model')
